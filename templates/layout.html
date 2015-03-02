@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/foundation.css') }}">
+    <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+    <title>{% block title %}TdSayuno{% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/">TdSayuno</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+      </ul>
+
+      <section class="top-bar-section">
+        <ul class="left">
+          <li><a href="{{ url_for('logout') }}">Turnos</a></li>
+          <li><a href="{{ url_for('logout') }}">Pedir</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+      </section>
+    </nav>
+    {% if error %}
+    <div id="errors"  style='padding: 10px;'>{{ error }}</div>
+    {% endif %}
+    <div id="content" style='padding: 10px;'>{% block content %}{% endblock %}</div>
+    <script src="{{ url_for('static',filename='/js/vendor/jquery.js') }}"></script>
+    <script src="{{ url_for('static',filename='/js/vendor/fastclick.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/foundation.min.js') }}"></script>
+    <script>
+      $(document).foundation();
+    </script> 
+  </body>
+</html>
