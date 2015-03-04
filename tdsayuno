@@ -1,0 +1,47 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from optparse import OptionParser
+from sys import argv
+import os
+
+VERSION = '0.1'
+
+def upgrade():
+  os.system("./upgrade")
+
+def run(debug=False):
+  from view import start
+  start(debug=debug)
+
+def main():
+  parser = OptionParser(usage="USAGE: %prog [options]", 
+                        version="%prog "+VERSION )
+  parser.add_option("-r", "--run",
+                    action="store_true",
+                    dest="run",
+                    default=False,
+                    help="start the application.")
+  parser.add_option("-d", "--debug",
+                    action="store_true",
+                    dest="debug",
+                    default=False,
+                    help="start the application in debug mode.")
+  parser.add_option("-u", "--upgrade",
+                    action="store_true",
+                    dest="upgrade",
+                    default=False,
+                    help="upgrade database to the last version.",)
+  (options, args) = parser.parse_args()
+
+  if len(argv) == 1:
+    options.run = True
+
+  if options.upgrade:
+    upgrade()
+
+  if options.run or options.debug:
+    run(options.debug)
+
+if __name__ == '__main__':
+  main()

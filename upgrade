@@ -1,0 +1,44 @@
+#! /bin/bash
+
+pushd $(dirname $0) > /dev/null
+
+error()
+{
+  echo "Error: ${1}."
+  exit 1
+}
+
+# Create if not exists
+if [ ! -e tdsayuno.db ]
+then
+  echo "Creating database..."
+  sqlite3 tdsayuno.db < sql/create.sql || error "creating database."
+fi
+
+# Check Backup
+if [ -e tdsayuno.db.bak ]
+then
+  echo "Backup file tdsayuno.db.bak exists!"
+  echo "If you really want to upgrade, delete it."
+  echo "  rm tdsayuno.db.bak"
+  exit 1
+fi
+
+# Backup database
+cp tdsayuno.db tdsayuno.db.bak
+
+# Upgrade
+VERSION=$(sqlite3 tdsayuno.db 'SELECT VERSION FROM VERSION')
+while [ -e sql/upgrade_${VERSION}.sql ]
+do
+  echo "Upgrading database (${VERSION})..."
+  sqlite3 tdsayuno.db < sql/upgrade_${VERSION}.sql || error "upgrading database."
+  VERSION=$(sqlite3 tdsayuno.db 'SELECT VERSION FROM VERSION')
+done
+
+echo "Database upgraded to ${VERSION}"
+
+# Remove backup
+rm tdsayuno.db.bak
+
+popd > /dev/null

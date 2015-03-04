@@ -1,9 +1,0 @@
-#! /bin/bash
-
-pushd $(dirname $0)
-
-rm tdsayuno.db.bak
-mv tdsayuno.db tdsayuno.db.bak
-python install.py
-
-popd

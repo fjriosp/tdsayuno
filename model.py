@@ -17,6 +17,8 @@ class User(db.Model):
   karma = db.Column(db.Integer)
   food = db.Column(db.Integer)
   drink = db.Column(db.Integer)
+  pref_food = db.Column(db.Integer)
+  pref_drink = db.Column(db.Integer)
 
   def __init__(self, user, name, mail, passwd, karma):
     self.user = user
@@ -28,9 +30,14 @@ class User(db.Model):
     self.karma = karma
     self.food = None
     self.drink = None
+    self.pref_food = None
+    self.pref_drink = None
+
+  def isAdmin(self):
+    return self.user=='admin'
 
   def __str__(self):
-    return 'User(%d,"%s","%s","%s","%s",%d,%d,%d,%d)' % (self.id,self.user,self.name,self.mail,self.session,self.seed,self.karma,self.food,self.drink)
+    return 'User(%d,"%s","%s","%s","%s",%d,%d,%d,%d,%d,%d)' % (self.id,self.user,self.name,self.mail,self.session,self.seed,self.karma,self.food,self.drink,self.pref_food,self.pref_drink)
 
 class Version(db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -41,3 +48,28 @@ class Version(db.Model):
 
   def __str__(self):
     return 'Version(%d,"%s")' % (self.id,self.version)
+
+class Drink(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String)
+  price = db.Column(db.Float)
+
+  def __init__(self, name, price):
+    self.name = name
+    self.price = price
+
+  def __str__(self):
+    return 'Drink(%d,"%s",%f)' % (self.id,self.name,self.price)
+
+class Food(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String)
+  price = db.Column(db.Float)
+
+  def __init__(self, name, price):
+    self.name = name
+    self.price = price
+
+  def __str__(self):
+    return 'Food(%d,"%s",%f)' % (self.id,self.name,self.price)
+

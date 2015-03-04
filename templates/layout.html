@@ -20,9 +20,16 @@
 
       <section class="top-bar-section">
         <ul class="left">
+          {% if u %}
+          {% if u.isAdmin %}
+          <li><a href="{{ url_for('comida') }}">Comidas</a></li>
+          <li><a href="{{ url_for('bebida') }}">Bebidas</a></li>
+          {% endif %}
+          <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
           <li><a href="{{ url_for('logout') }}">Turnos</a></li>
           <li><a href="{{ url_for('logout') }}">Pedir</a></li>
           <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          {% endif %}
         </ul>
       </section>
     </nav>
@@ -32,7 +39,8 @@
     <div id="content" style='padding: 10px;'>{% block content %}{% endblock %}</div>
     <script src="{{ url_for('static',filename='/js/vendor/jquery.js') }}"></script>
     <script src="{{ url_for('static',filename='/js/vendor/fastclick.js') }}"></script>
-    <script src="{{ url_for('static',filename='js/foundation.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='/js/foundation/foundation.js') }}"></script>
+    <script src="{{ url_for('static',filename='/js/foundation/foundation.abide.js') }}"></script>
     <script>
       $(document).foundation();
     </script> 

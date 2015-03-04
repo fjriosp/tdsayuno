@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<form data-abide action="{{ url_for('saveBebida') }}" method="POST">
+{% if e %}
+  <div class="row">
+    <div class="large-2 medium-2 columns">
+      <label>Id: <input type="text" name="id" placeholder="Id" value="{{e.id}}" readonly/></label>
+    </div>
+    <div class="large-8 medium-8 columns">
+      <label>Producto: <input type="text" name="name" placeholder="Producto" required value="{{e.name}}"/></label>
+      <small class="error">Campo obligatorio</small>
+    </div>
+    <div class="large-2 medium-2 columns">
+      <label>Precio: <input type="text" name="price" placeholder="Precio" required pattern="[0-9]+(.[0-9]([0-9])?)?" value="{{e.price}}"/></label>
+      <small class="error">Campo obligatorio</small>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-4 medium-8 columns">
+      <button type="submit" class="tiny button">Guardar</button>
+      <a href="{{ url_for('bebida') }}" class="tiny button">Cancelar</a>
+    </div>
+  </div>
+{% else %}
+  <div class="row">
+    <div class="large-6 medium-6 columns">
+      <label>Producto: <input type="text" name="name" placeholder="Producto" required/></label>
+      <small class="error">Campo obligatorio</small>
+    </div>
+    <div class="large-6 medium-6 columns">
+      <label>Precio: <input type="text" name="price" placeholder="Precio" required pattern="[0-9]+(.[0-9]([0-9])?)?"/></label>
+      <small class="error">Campo obligatorio</small>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-4 medium-8 columns">
+      <button type="submit" class="tiny button">Añadir</button>
+    </div>
+  </div>
+{% endif %}
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Producto</th>
+      <th>Precio</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in productos %}
+    {% if e and p.id==e.id %}
+    <tr style="background-color: #FFFF99;">
+    {% else %}
+    <tr>
+    {% endif %}
+      <td>{{p.id}}</td>
+      <td>{{p.name}}</td>
+      <td>{{p.price}}</td>
+      <td><a href="{{ url_for('bebida',   id=p.id) }}" class="tiny button">Editar</a></td>
+      <td><a href="{{ url_for('deleteBebida',id=p.id) }}" class="tiny button">Borrar</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
